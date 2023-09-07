@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Taco House</title>
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+    <style>
+        .validationError {
+            color: red;
+        }
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        .order-form {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .taco-image-container {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+        }
+
+        .taco-image {
+            max-width: 1100px;
+            height: 600px;
+        }
+
+        /* Move the logout button to align with the form */
+        .logout-form {
+            margin-top: 20px;
+        }
+
+        form {
+            width: 100%;
+            max-width: 400px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="order-form">
+    <form method="POST" th:action="@{/orders}" th:object="${tacoOrder}">
+        <h1>Order your taco creations!</h1>
+        <h3>Your tacos in this order:</h3>
+        <ul>
+            <li th:each="taco : ${tacoOrder.tacos}">
+                <span th:text="${taco.name}" id="tacoName">taco name</span></li>
+        </ul>
+        <a th:href="@{/design}" id="another">Design another taco</a><br/>
+
+        <div class="validationError" th:if="${#fields.hasErrors()}">
+            <p>Please correct the problems below and resubmit:</p>
+        </div>
+
+        <h3>Taco Delivery Details</h3>
+
+        <label for="deliveryName">Name: </label>
+        <input type="text" th:field="*{deliveryName}" required id="deliveryName" />
+        <span class="validationError" th:if="${#fields.hasErrors('deliveryName')}" th:errors="*{deliveryName}" id="deliveryNameError">Name Error</span>
+        <br/>
+
+        <label for="deliveryStreet">Street address: </label>
+        <input type="text" th:field="*{deliveryStreet}" required id="deliveryStreet" />
+        <span class="validationError" th:if="${#fields.hasErrors('deliveryStreet')}" th:errors="*{deliveryStreet}" id="deliveryStreetError">Street Error</span>
+        <br/>
+
+        <label for="deliveryCity">City: </label>
+        <input type="text" th:field="*{deliveryCity}" required id="deliveryCity" />
+        <span class="validationError" th:if="${#fields.hasErrors('deliveryCity')}" th:errors="*{deliveryCity}" id="deliveryCityError">City Error</span>
+        <br/>
+
+        <label for="deliveryState">State: </label>
+        <input type="text" th:field="*{deliveryState}" required id="deliveryState" />
+        <span class="validationError" th:if="${#fields.hasErrors('deliveryState')}" th:errors="*{deliveryState}" id="deliveryStateError">State Error</span>
+        <br/>
+
+        <label for="deliveryZip">Zip code: </label>
+        <input type="text" th:field="*{deliveryZip}" required id="deliveryZip" />
+        <span class="validationError" th:if="${#fields.hasErrors('deliveryZip')}" th:errors="*{deliveryZip}" id="deliveryZipError">Zip Error</span>
+        <br/>
+
+        <label for="ccNumber">Credit Card #: </label>
+        <input type="text" th:field="*{ccNumber}" required id="ccNumber" />
+        <span class="validationError" th:if="${#fields.hasErrors('ccNumber')}" th:errors="*{ccNumber}" id="ccNumberError">CC Num Error</span>
+        <br/>
+
+        <label for="ccExpiration">Expiration: </label>
+        <input type="text" th:field="*{ccExpiration}" required id="ccExpiration" />
+        <span class="validationError" th:if="${#fields.hasErrors('ccExpiration')}" th:errors="*{ccExpiration}" id="ccExpirationError">Expiration Error</span>
+        <br/>
+
+        <label for="ccCVV">CVV: </label>
+        <input type="text" th:field="*{ccCVV}" required id="ccCVV" />
+        <span class="validationError" th:if="${#fields.hasErrors('ccCVV')}" th:errors="*{ccCVV}" id="ccCVVError">CVV Error</span>
+        <br/>
+
+        <input type="submit" value="Submit Order" id="submitOrder" />
+    </form>
+
+    <!-- Move the logout button here -->
+    <form method="POST" th:action="@{/logout}" class="logout-form">
+        <input type="submit" value="Logout"/>
+    </form>
+</div>
+<div class="taco-image-container">
+    <img class="taco-image" th:src="@{/logo.jpg}" alt="Taco Logo"/>
+</div>
+</body>
+</html>

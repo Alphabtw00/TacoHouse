@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Taco Cloud</title>
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+    <style>
+        .validationError {
+            color: red;
+        }
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        .registration-form {
+            flex: 1;
+            margin-left: 20px;
+        }
+
+        .logo-image-container {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+        }
+
+        .logo-image {
+            max-width: 1100px;
+            height: 600px;
+        }
+
+        form {
+            width: 100%;
+            max-width: 400px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="registration-form">
+    <form method="POST" th:action="@{/register}" th:object="${registrationForm}">
+        <label for="username">Username: </label>
+        <input type="text" id="username" th:field="*{username}" /><br/>
+
+        <label for="password">Password: </label>
+        <input type="password" id="password" th:field="*{password}" /><br/>
+
+        <label for="confirm">Confirm password: </label>
+        <input type="password" id="confirm" name="confirm"/><br/>
+
+        <label for="fullname">Full name: </label>
+        <input type="text" id="fullname" th:field="*{fullname}" /><br/>
+
+        <label for="street">Street: </label>
+        <input type="text" id="street" th:field="*{street}" /><br/>
+
+        <label for="city">City: </label>
+        <input type="text" id="city" th:field="*{city}" /><br/>
+
+        <label for="state">State: </label>
+        <input type="text" id="state" th:field="*{state}" /><br/>
+
+        <label for="zip">Zip: </label>
+        <input type="text" id="zip" th:field="*{zip}" /><br/>
+
+        <label for="phone">Phone: </label>
+        <input type="text" id="phone" th:field="*{phone}" /><br/>
+
+        <input type="submit" value="Register"/>
+    </form>
+
+</div>
+<div class="logo-image-container">
+    <img class="logo-image" th:src="@{/logo.jpg}" alt="Taco Logo"/>
+</div>
+</body>
+</html>
