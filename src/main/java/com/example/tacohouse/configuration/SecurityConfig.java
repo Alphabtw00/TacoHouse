@@ -40,7 +40,8 @@ public class SecurityConfig {
         MvcRequestMatcher.Builder mvc = new MvcRequestMatcher.Builder(introspector);
         http
                 .authorizeHttpRequests((auth)-> auth
-                        .requestMatchers(mvc.pattern("/design") , mvc.pattern("/orders"),mvc.pattern("/orders/current")).hasRole("USER")
+                        .requestMatchers(mvc.pattern("/design") , mvc.pattern("/orders"),mvc.pattern("/orders/current"))
+                        .hasAnyRole("USER","ADMIN")
                         .requestMatchers(mvc.pattern("/"), mvc.pattern("/**")).permitAll())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(form->

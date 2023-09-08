@@ -23,6 +23,7 @@ public class User implements UserDetails {
     private Long id;
     private final String username;
     private final String password;
+    private final String role;
     private final String fullname;
     private final String street;
     private final String city;
@@ -71,5 +72,17 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+    public User(String username,String password,String role){
+        this.username=username;
+        this.password=password;
+        this.role=role;
+        roles.add(role);
+        this.fullname="";
+        this.street="";
+        this.city="";
+        this.state="";
+        this.zip="";
+        this.phoneNumber="";
     }
 }
