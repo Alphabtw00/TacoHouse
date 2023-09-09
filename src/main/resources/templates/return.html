@@ -35,22 +35,8 @@
 </head>
 <body>
 <div class="content">
-    <h1>Login</h1>
-    <div th:if="${error}">
-        Unable to login. Check your username and password.
-    </div>
-    <p>New here? Click
-        <a th:href="@{/register}">here</a> to register.</p>
-    <form method="POST" th:action="@{/login}" id="loginForm">
-        <label for="username">Username: </label>
-        <input type="text" name="username" id="username" /><br/>
-        <label for="password">Password: </label>
-        <input type="password" name="password" id="password" /><br/>
-        <input type="submit" value="Login"/>
-    </form>
-</div>
-<div class="navbar">
-    <a th:href="@{/logout}" th:text="Logout">Logout</a>
+    <h1>Welcome to Taco Cloud</h1>
+    <p>Make another order <a th:href="@{/}">here</a>.</p>
 </div>
 <div class="logo-image-container">
     <img class="logo-image" th:src="@{/logo.jpg}" alt="Taco Logo"/>

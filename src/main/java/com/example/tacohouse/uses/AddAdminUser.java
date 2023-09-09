@@ -17,7 +17,7 @@ public class AddAdminUser implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if(userRepository.findByUsername("admin")==null){
-            userRepository.save(new User("admin","12345","ROLE_ADMIN"));
+            userRepository.save(new User("admin",passwordEncoder.encode("12345"),"ROLE_ADMIN"));
         }
     }
 }

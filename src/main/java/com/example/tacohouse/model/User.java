@@ -77,12 +77,12 @@ public class User implements UserDetails {
         this.username=username;
         this.password=password;
         this.role=role;
-        roles.add(role);
         this.fullname="";
         this.street="";
         this.city="";
         this.state="";
         this.zip="";
         this.phoneNumber="";
+        getRoles().add(role);
     }
 }

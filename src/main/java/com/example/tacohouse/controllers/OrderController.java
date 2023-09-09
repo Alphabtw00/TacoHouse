@@ -19,6 +19,10 @@ public class OrderController {
     public OrderController(OrderRepository orderRepository){
         this.orderRepository=orderRepository;
     }
+    @GetMapping
+    public String returnOrder(){
+        return "return";
+    }
 
     @GetMapping("/current")
     public String orderForm(){
@@ -31,6 +35,7 @@ public class OrderController {
         }
         order.setUser(user);
         TacoOrder tacoOrder = orderRepository.save(order);
+        user.addTacoOrder(order);
         log.info("Order submitted: {}", tacoOrder);
         sessionStatus.setComplete();
         return "redirect:/";

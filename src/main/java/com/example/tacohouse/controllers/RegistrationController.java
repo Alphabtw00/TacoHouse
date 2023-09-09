@@ -33,7 +33,6 @@ public class RegistrationController {
             model.addAttribute("passwordMismatchError", "Passwords do not match.");
             return "registration";
         }
-
         userRepository.save(form.toUser(passwordEncoder));
         return "redirect:/login";
     }

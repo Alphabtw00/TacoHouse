@@ -43,18 +43,15 @@
 
 <div class="registration-form">
     <form method="POST" th:action="@{/register}" th:object="${registrationForm}">
+        <span th:if="${passwordMismatchError}" class="validationError" th:text="${passwordMismatchError}"></span><br/>
         <label for="username">Username: </label>
         <input type="text" id="username" th:field="*{username}" /><br/>
-
         <label for="password">Password: </label>
         <input type="password" id="password" th:field="*{password}" /><br/>
-
         <label for="confirm">Confirm password: </label>
         <input type="password" id="confirm" name="confirm" required /><br/>
-        <span th:if="${passwordMismatchError}" class="validationError" th:text="${passwordMismatchError}"></span><br/>
         <label for="fullname">Full name: </label>
         <input type="text" id="fullname" th:field="*{fullname}" /><br/>
-
         <label for="street">Street: </label>
         <input type="text" id="street" th:field="*{street}" /><br/>
 

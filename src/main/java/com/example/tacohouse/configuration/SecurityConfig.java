@@ -43,7 +43,6 @@ public class SecurityConfig {
                         .requestMatchers(mvc.pattern("/design") , mvc.pattern("/orders"),mvc.pattern("/orders/current"))
                         .hasAnyRole("USER","ADMIN")
                         .requestMatchers(mvc.pattern("/"), mvc.pattern("/**")).permitAll())
-                .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(form->
                         form.loginPage("/login")
                                 .defaultSuccessUrl(("/"),true))
