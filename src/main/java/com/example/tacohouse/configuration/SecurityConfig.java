@@ -7,13 +7,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
+
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -32,14 +38,14 @@ public class SecurityConfig {
         };
     }
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception{
+        MvcRequestMatcher.Builder mvc = new MvcRequestMatcher.Builder(introspector);
         http
                 .authorizeHttpRequests((auth)-> auth
-                        .requestMatchers(("/design"), ("/orders"), ("/orders/current"))
+                        .requestMatchers(mvc.pattern("/design") , mvc.pattern("/orders"),mvc.pattern("/orders/current"))
                         .hasAnyRole("USER","ADMIN")
-                        .requestMatchers(("/"),("/**")).permitAll()
-                        .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("ADMIN")
-                        .requestMatchers(toH2Console()).permitAll())
+                        .requestMatchers(mvc.pattern("/"), mvc.pattern("/**")).permitAll()
+                        .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("ADMIN"))
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(form->
                         form.loginPage("/login")
@@ -47,5 +53,9 @@ public class SecurityConfig {
                 .logout(logout->
                         logout.logoutSuccessUrl("/login"));
         return http.build();
+    }
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers(antMatcher("/h2-console/**"));
     }
 }
