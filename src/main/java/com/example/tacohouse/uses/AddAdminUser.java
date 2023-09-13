@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class AddAdminUser implements CommandLineRunner {
     private UserRepository userRepository;
+    @Value("${admin.username}")
+    private String username;
     @Value("${admin.password}")
     private String password;
     private PasswordEncoder passwordEncoder;
@@ -22,8 +24,8 @@ public class AddAdminUser implements CommandLineRunner {
     }
     @Override
     public void run(String... args) throws Exception {
-        if(userRepository.findByUsername("admin")==null){
-            userRepository.save(new User("admin",passwordEncoder.encode(password),"ROLE_ADMIN"));
+        if(userRepository.findByUsername(username)==null){
+            userRepository.save(new User(username,passwordEncoder.encode(password),"ROLE_ADMIN"));
         }
     }
 }
