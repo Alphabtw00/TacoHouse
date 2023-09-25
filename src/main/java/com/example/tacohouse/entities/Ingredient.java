@@ -1,4 +1,4 @@
-package com.example.tacohouse.model;
+package com.example.tacohouse.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -7,7 +7,6 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED,force = true)
 @RequiredArgsConstructor
 //@RestResource(rel="ingredients", path="ingredients")
-
 public class Ingredient {
     @Id
     private final String id;
@@ -16,6 +15,6 @@ public class Ingredient {
     private final Type type;
 
     public enum Type {
-        WRAP, PROTEIN, VEGGIES, CHEESE, SAUCE
+        WRAP, PROTEIN, VEGGIES, CHEESE, SAUCE, EXTRA
     }
 }

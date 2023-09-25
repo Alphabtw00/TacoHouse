@@ -1,8 +1,9 @@
 package com.example.tacohouse.controllers;
 
-import com.example.tacohouse.model.Ingredient;
-import com.example.tacohouse.model.Taco;
-import com.example.tacohouse.model.TacoOrder;
+import com.example.tacohouse.components.SessionScopedTacoOrderManager;
+import com.example.tacohouse.entities.Ingredient;
+import com.example.tacohouse.entities.Taco;
+import com.example.tacohouse.entities.TacoOrder;
 import com.example.tacohouse.repositories.IngredientRepository;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -19,13 +20,32 @@ import java.util.stream.Collectors;
 @Slf4j
 @Controller
 @RequestMapping("/design")
-@SessionAttributes("tacoOrder")
 public class DesignTacoController {
     private IngredientRepository ingredientRepository;
+    private SessionScopedTacoOrderManager sessionScopedTacoOrderManager;
     @Autowired
-    public DesignTacoController(IngredientRepository ingredientRepository){
+    public DesignTacoController(IngredientRepository ingredientRepository,SessionScopedTacoOrderManager sessionScopedTacoOrderManager){
         this.ingredientRepository=ingredientRepository;
+        this.sessionScopedTacoOrderManager=sessionScopedTacoOrderManager;
     }
+
+
+    @GetMapping
+    public String showDesignForm() {
+        return "design";
+    }
+    @PostMapping
+    public String processTaco(@Valid Taco taco,Errors errors) {
+        if(errors.hasErrors()){
+            return "design";
+        }
+        TacoOrder tacoOrder=sessionScopedTacoOrderManager.getTacoOrder();
+        tacoOrder.addTaco(taco);
+        log.info("Processing taco: {}", taco);
+        return "redirect:/orders/current";
+    }
+
+
     @ModelAttribute
     public void addIngredientsToModel(Model model){
         Iterable<Ingredient> tempo = ingredientRepository.findAll();
@@ -36,27 +56,13 @@ public class DesignTacoController {
             model.addAttribute(type.toString().toLowerCase(),filterByType(ingredients , type));
         }
     }
-    @ModelAttribute(name = "tacoOrder")
-    public TacoOrder order() {
-        return new TacoOrder();
-    }
     @ModelAttribute(name = "taco")
     public Taco taco() {
         return new Taco();
     }
-    @GetMapping
-    public String showDesignForm() {
-        return "design";
-    }
-    @PostMapping
-    public String processTaco(@Valid Taco taco,Errors errors, @ModelAttribute TacoOrder tacoOrder) {
-        if(errors.hasErrors()){
-            return "design";
-        }
-        tacoOrder.addTaco(taco);
-        log.info("Processing taco: {}", taco);
-        return "redirect:/orders/current";
-    }
+
+
+
     private Iterable<Ingredient> filterByType(
             List<Ingredient> ingredients, Ingredient.Type type) {
         return ingredients

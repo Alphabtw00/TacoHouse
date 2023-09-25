@@ -1,27 +1,27 @@
-package com.example.tacohouse.model;
+package com.example.tacohouse.entities;
 
-import com.example.tacohouse.model.Taco;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Data
 @Entity
+@Getter
+@Setter
 //@RestResource(rel="orders", path="orders")
-
-public class TacoOrder implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class TacoOrder{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -53,4 +53,5 @@ public class TacoOrder implements Serializable {
         taco.setTacoOrder(this);
         this.tacos.add(taco);
     }
+
 }

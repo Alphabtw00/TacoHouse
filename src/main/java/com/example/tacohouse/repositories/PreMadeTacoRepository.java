@@ -1,10 +1,9 @@
 package com.example.tacohouse.repositories;
 
-import com.example.tacohouse.entities.User;
+import com.example.tacohouse.entities.PreMadeTaco;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends CrudRepository<User,Long> {
-    User findByUsername(String username);
+public interface PreMadeTacoRepository extends CrudRepository<PreMadeTaco,String> {
 }

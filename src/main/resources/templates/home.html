@@ -1,50 +1,137 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Taco Cloud</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taco House</title>
     <link rel="stylesheet" th:href="@{/styles.css}" />
     <style>
-        .validationError {
-            color: red;
+        body, h1, p, a, ul {
+            margin: 0;
+            padding: 0;
         }
 
-        body {
+        header {
+            height: 10vh;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background-color: #ff6600;
+            padding: 10px 20px;
+        }
+
+
+        .main-content {
+            min-height: 90vh; /* Adjusted minimum height */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             padding: 20px;
+            background-color: #f5f5f5;
         }
 
         .content {
-            flex: 1;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            flex-grow: 1;
         }
 
-        .logo-image-container {
-            flex: 1;
+        h1 {
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #666;
+        }
+
+        .reviews {
+            margin-top: 20px;
+            overflow-y: auto;
+        }
+
+        .review {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #ffffff; /* Changed the background color for better contrast */
+            border: 1px solid #e0e0e0; /* Added a subtle border */
+            border-radius: 10px; /* Increased border radius for a more modern look */
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .rating {
             display: flex;
-            justify-content: flex-end;
-            align-items: flex-end;
+            align-items: center;
+            margin-top: 10px;
         }
 
-        .logo-image {
-            max-width: 100%;
-            height: auto;
+        .rating label {
+            font-size: 18px;
+            color: slategray;
+            margin-right: 5px;
         }
 
+        .rating .rating-value {
+            font-size: 24px;
+            color: #ff6600;
+        }
 
+        .navbar {
+            display: flex;
+            justify-content: flex-end; /* Move navigation to the right */
+            align-items: center;
+            background-color: #333; /* Darken the navigation background */
+            padding: 10px 20px;
+        }
+
+        .navbar a {
+            margin-left: 20px;
+            font-size: 16px;
+            color: #fff; /* White text for better visibility */
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-<div class="content">
-    <h1>Welcome to...</h1>
-    <p>Click
-        <a th:href="@{/design}"> here</a> to design a new Taco!</p>
-</div>
-<div class="navbar">
+<header>
+    <div th:if="${profileName}">
     <a th:href="@{/logout}" th:text="Logout">Logout</a>
-</div>
-<div class="logo-image-container">
-    <img class="logo-image" th:src="@{/logo.jpg}" alt="Taco Logo"/>
+    </div>
+    <h1>Taco House</h1>
+    <div th:if="${profileName}">
+        <a th:href="@{/profile}" th:text="${profileName}">Profile</a>
+    </div>
+    <div th:unless="${profileName}">
+        <a th:href="@{/login}" th:text="${signIn}">Sign In</a>
+    </div>
+</header>
+
+
+
+
+<div class="main-content">
+    <div class="content">
+        <p>Welcome to Taco House, your destination for delicious tacos! Whether you want to <a href="/design">design tacos yourself</a> or simply <a href="/menu">order from our menu</a>, we have something for every taco enthusiast.</p>
+        <div class="reviews">
+            <h2>Customer Reviews:</h2>
+            <div th:each="review : ${reviews}" class="review">
+                <p th:text="${review.comment}"></p>
+                <div class="rating">
+                    <label>Rating:</label>
+                    <span class="rating-value" th:text="${review.rating}"></span>/5
+                </div>
+                <p>By: <span th:text="${review.user.fullName}"></span></p>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

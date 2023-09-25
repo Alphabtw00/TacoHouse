@@ -1,6 +1,6 @@
 package com.example.tacohouse.repositories;
 
-import com.example.tacohouse.model.Ingredient;
+import com.example.tacohouse.entities.Ingredient;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

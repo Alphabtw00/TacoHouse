@@ -1,45 +1,175 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Taco Cloud</title>
     <link rel="stylesheet" th:href="@{/styles.css}" />
     <style>
-        .validationError {
-            color: red;
+        body, h1, p, a, ul, li, form, textarea, input, span {
+            margin: 0;
+            padding: 0;
         }
 
         body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             padding: 20px;
+            text-align: center;
         }
 
         .content {
-            flex: 1;
+            max-width: 800px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px;
         }
 
-        .logo-image-container {
-            flex: 1;
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #ff6600;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        #orderDetails {
+            margin-top: 20px;
+        }
+
+        #reviews {
+            margin-top: 20px;
+        }
+
+        #reviews textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        #reviews input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        #reviews input[type="submit"] {
+            background-color: #ff6600;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        #reviews input[type="submit"]:hover {
+            background-color: #ff4500;
+        }
+
+
+        #existingReviews p {
+            margin-bottom: 10px;
+        }
+
+        .rating {
             display: flex;
-            justify-content: flex-end;
-            align-items: flex-end;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
         }
 
-        .logo-image {
-            max-width: 100%;
-            height: auto;
+        .rating input[type="radio"] {
+            display: none;
         }
 
+        .rating label {
+            font-size: 30px;
+            color: slategray;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .rating input[type="radio"]:checked +  label {
+            color: #ff6600;
+        }
+
+        .validationError {
+            color: red;
+            font-size: 14px;
+            text-align: left;
+            margin-top: 5px;
+        }
+
+        .order-details {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
 <div class="content">
-    <h1>Welcome to Taco Cloud</h1>
-    <p>Make another order <a th:href="@{/}">here</a>.</p>
-</div>
-<div class="logo-image-container">
-    <img class="logo-image" th:src="@{/logo.jpg}" alt="Taco Logo"/>
-</div>
+    <h1>Thank you for your Order!</h1>
+    <div class="order-details">
+        <p>Your Order is Preparing.</p>
+        <p>Make another order <a th:href="@{/}">here</a>.</p>
+    </div>
+
+    <div id="orderDetails">
+        <h3>Order Details Made by:  <span th:text="${tacoOrder.deliveryName}"></span></h3>
+        <ul th:each="taco : ${tacoOrder.tacos}">
+            <li th:text="${taco.name}"></li>
+        </ul>
+    </div>
+
+    <div id="reviews">
+        <h2>Customer Reviews</h2>
+        <form method="post" th:action="@{/orders}" th:object="${review}">
+            <textarea name="comment" rows="4" cols="50" placeholder="Add your review..." th:field="*{comment}"></textarea>
+            <span th:if="${#fields.hasErrors('comment')}" class="validationError" th:errors="*{comment}" >Review Error</span>
+            <div class="rating">
+                <input type="radio" id="star5" name="rating" value="5" th:checked="${review.rating == 5}" />
+                <label for="star5">&#9733;</label>
+                <input type="radio" id="star4" name="rating" value="4" th:checked="${review.rating == 4}" />
+                <label for="star4">&#9733;</label>
+                <input type="radio" id="star3" name="rating" value="3" th:checked="${review.rating == 3}" />
+                <label for="star3">&#9733;</label>
+                <input type="radio" id="star2" name="rating" value="2" th:checked="${review.rating == 2}" />
+                <label for="star2">&#9733;</label>
+                <input type="radio" id="star1" name="rating" value="1" th:checked="${review.rating == 1}" />
+                <label for="star1">&#9733;</label>
+                <span th:if="${#fields.hasErrors('rating')}" class="validationError" th:errors="*{rating}" >Rating Error</span>
+            </div>
+            <input type="submit" value="Submit Review">
+        </form>
+    </div>
+
+    </div>
 </body>
 </html>

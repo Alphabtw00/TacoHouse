@@ -1,6 +1,6 @@
 package com.example.tacohouse.repositories;
 
-import com.example.tacohouse.model.Taco;
+import com.example.tacohouse.entities.Taco;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.domain.Pageable;
