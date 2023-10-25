@@ -19,7 +19,7 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity //to diable basic security and configure your own
 public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder(){
