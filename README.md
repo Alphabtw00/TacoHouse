@@ -6,4 +6,10 @@ Utilized Docker to create a portable and easily runnable environment for the app
 
 This project showcases a mastery of Spring framework, database management, security implementation, Docker deployment, and monitoring tools, underscoring strong proficiency in full-stack development with Spring technologies.
 
-��# TacoHouse
+��# TacoHouse  
+TO-DO: 
+1) add spring-boot-admin-starter-server dependency in a project 
+2) use @EnableAdminServer on Main class to let spring know that it is our admin server 
+2) add server.port=9090(or any port according you but remember to change that accordingly in tacohouse admin client property)  
+3) start admin server then start tacohouse(admin client)
+4) now you have an ui that consumes actuator endpoints and can monitor your health and metrics.
