@@ -1,4 +1,4 @@
-"Expertly designed and developed 'Taco House,' a dynamic web application using Spring Boot, Spring MVC, and Thymeleaf to render HTML/CSS models from the server. Leveraged Spring Security and Spring JPA for robust authentication, authorization, and database management, integrating H-2 database for seamless data handling.
+"Expertly designed and developed 'Taco House,' a dynamic web application using Spring Boot 3.0, Spring MVC, and Thymeleaf to render HTML/CSS models from the server. Leveraged Spring Security and Spring JPA for robust authentication, authorization, and database management, integrating H-2 database for seamless data handling.
 
 Implemented a comprehensive set of features including user registration, authentication, and profile management. The application facilitates menu browsing, allowing users to explore pre-made tacos or create customized orders. Additionally, users can submit reviews and benefit from CRUD functionalities for a seamless ordering experience.
 
