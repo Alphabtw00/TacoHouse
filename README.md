@@ -7,10 +7,3 @@ Utilized Docker to create a portable and easily runnable environment for the app
 This project showcases a mastery of Spring framework, database management, security implementation, Docker deployment, and monitoring tools, underscoring strong proficiency in full-stack development with Spring technologies.
 
 ��# TacoHouse
-THINGS TO ADD IN CONFIG FILE:  
-
-add -> admin.password= & admin.username (to add admin role username and password)
-
-add -> spring.boot.admin.client.username= & spring.boot.admin.client.password= (with appropriate info to give to admin server so it can access actuator endpoints)
-
-add -> spring.boot.admin.client.url= (to whatever the url server admin is running on.)
