@@ -40,10 +40,13 @@ public class SecurityConfig {
         MvcRequestMatcher.Builder mvc = new MvcRequestMatcher.Builder(introspector);
         http
                 .authorizeHttpRequests((auth)-> auth
-                        .requestMatchers(mvc.pattern("/design"),mvc.pattern("/orders"),mvc.pattern("/orders/current"),mvc.pattern("/menu"),mvc.pattern("/profile"), mvc.pattern("/profile/edit"))
+                        .requestMatchers(mvc.pattern("/design"),mvc.pattern("/orders")
+                                ,mvc.pattern("/orders/current"),mvc.pattern("/menu")
+                                ,mvc.pattern("/profile")
+                                ,mvc.pattern("/profile/edit"))
                         .hasAnyRole("USER","ADMIN")
                         .requestMatchers(mvc.pattern("/"), mvc.pattern("/**")).permitAll()
-                        .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("ADMIN"))
+                        .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("ADMIN")) //to secure actuator endpoints
                 .formLogin(form->
                         form.loginPage("/login")
                                 .defaultSuccessUrl(("/"),true))
