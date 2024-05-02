@@ -30,6 +30,10 @@ public class RegistrationController {
     }
     @PostMapping
     public String processRegistration(@Valid RegistrationForm form, Errors errors, Model model) {
+        if(userRepository.findByUsername(form.getUsername())!=null){
+            model.addAttribute("usernameTakenError",  "Please Pick a different Username or Log in");
+            return "registration";
+        }
         if(errors.hasErrors()){
             return "registration";
         }

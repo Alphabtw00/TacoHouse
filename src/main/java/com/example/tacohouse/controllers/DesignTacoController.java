@@ -5,44 +5,68 @@ import com.example.tacohouse.entities.Ingredient;
 import com.example.tacohouse.entities.Taco;
 import com.example.tacohouse.entities.TacoOrder;
 import com.example.tacohouse.repositories.IngredientRepository;
+import com.example.tacohouse.repositories.TacoRepository;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
-@RequestMapping("/design")
+@RequestMapping("/taco/design")
 public class DesignTacoController {
     private IngredientRepository ingredientRepository;
+    private TacoRepository tacoRepository;
     private SessionScopedTacoOrderManager sessionScopedTacoOrderManager;
+
     @Autowired
-    public DesignTacoController(IngredientRepository ingredientRepository,SessionScopedTacoOrderManager sessionScopedTacoOrderManager){
-        this.ingredientRepository=ingredientRepository;
-        this.sessionScopedTacoOrderManager=sessionScopedTacoOrderManager;
+    public DesignTacoController(IngredientRepository ingredientRepository,
+                                TacoRepository tacoRepository,
+                                SessionScopedTacoOrderManager sessionScopedTacoOrderManager) {
+        this.ingredientRepository = ingredientRepository;
+        this.tacoRepository = tacoRepository;
+        this.sessionScopedTacoOrderManager = sessionScopedTacoOrderManager;
     }
+
+
+
 
 
     @GetMapping
-    public String showDesignForm() {
-        return "design";
+    public String showDesignTacoForm() {
+        return "designTaco";
     }
+
+
     @PostMapping
     public String processTaco(@Valid Taco taco,Errors errors) {
         if(errors.hasErrors()){
-            return "design";
+            return "designTaco";
         }
-        TacoOrder tacoOrder=sessionScopedTacoOrderManager.getTacoOrder();
-        tacoOrder.addTaco(taco);
-        log.info("Processing taco: {}", taco);
+
+        TacoOrder tacoOrder = sessionScopedTacoOrderManager.getTacoOrder();
+
+        taco.setCreatedAt(LocalDateTime.now());
+
+        Taco savedTaco = tacoRepository.save(taco);
+
+        taco.setTacoOrder(tacoOrder);
+        tacoOrder.addTaco(savedTaco);
+        log.info("Processing taco: {} ",savedTaco);
         return "redirect:/orders/current";
+
+
     }
 
 
@@ -56,15 +80,12 @@ public class DesignTacoController {
             model.addAttribute(type.toString().toLowerCase(),filterByType(ingredients , type));
         }
     }
-    @ModelAttribute(name = "taco")
+    @ModelAttribute
     public Taco taco() {
         return new Taco();
     }
 
-
-
-    private Iterable<Ingredient> filterByType(
-            List<Ingredient> ingredients, Ingredient.Type type) {
+    private Iterable<Ingredient> filterByType(List<Ingredient> ingredients, Ingredient.Type type) {
         return ingredients
                 .stream()
                 .filter(x -> x.getType().equals(type))

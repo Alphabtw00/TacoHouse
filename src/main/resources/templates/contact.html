@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taco House - Contact</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f8f8f8;
+            background-image: linear-gradient(120deg, #d0f4d1, #f8f8f8);
+        }
+
+        .header .navbar {
+            background-color: #4CAF50;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .header .nav-link {
+            color: #ffffff;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .header .nav-link:hover {
+            color: #ffc107;
+        }
+
+        .header .nav-link::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #ffc107;
+            transition: width 0.3s ease;
+        }
+
+        .header .nav-link:hover::before {
+            width: 100%;
+        }
+
+        .contact-form {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-form label {
+            font-weight: 600;
+            color: #4CAF50;
+        }
+
+        .contact-form .form-control {
+            border-radius: 6px;
+            border-color: #cccccc;
+            background-color: #f9f9f9;
+        }
+
+        .contact-form .form-control:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+        }
+
+        .contact-form .btn-primary {
+            background-color: #4CAF50;
+            border-color: #4CAF50;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contact-form .btn-primary:hover {
+            background-color: #388e3c;
+            border-color: #388e3c;
+        }
+
+        .contact-form .btn-primary i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .contact-info {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-info h5 {
+            color: #4CAF50;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-info .social-icons a {
+            color: #333333;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .contact-info .social-icons a:hover {
+            color: #4CAF50;
+        }
+
+        footer {
+            background-color: #333333;
+            color: #ffffff;
+            padding: 2rem 0;
+        }
+
+        footer a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #cccccc;
+        }
+
+        footer ul {
+            padding: 0;
+            list-style: none;
+        }
+
+        footer ul li a {
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .modal-header {
+            background-color: #4CAF50;
+            color: #ffffff;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .modal-footer {
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .modal-footer .btn-primary {
+            background-color: #4CAF50;
+            border-color: #4CAF50;
+        }
+
+        .modal-footer .btn-primary:hover {
+            background-color: #388e3c;
+            border-color: #388e3c;
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/home}"><i class="fas fa-utensils"></i> Taco House</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/home}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="contact-form">
+                    <h2 class="mb-4"><i class="fas fa-envelope"></i> Get in Touch</h2>
+                    <form th:action="@{/contact}" method="post" th:object="${contact}">
+                        <div class="mb-3">
+                            <label for="name" class="form-label"><i class="fas fa-user"></i> Name</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" th:field="*{name}">
+                            <p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label"><i class="fas fa-envelope"></i> Email</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" th:field="*{email}">
+                            <p class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="subject" class="form-label"><i class="fas fa-heading"></i> Subject</label>
+                            <input type="text" class="form-control" id="subject" name="subject" placeholder="Enter the subject" th:field="*{subject}">
+                            <p class="text-danger" th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}"></p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label"><i class="fas fa-comment"></i> Message</label>
+                            <textarea class="form-control" id="message" name="message" rows="5" placeholder="Enter your message" th:field="*{message}"></textarea>
+                            <p class="text-danger" th:if="${#fields.hasErrors('message')}" th:errors="*{message}"></p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="urgency" class="form-label"><i class="fas fa-exclamation-circle"></i> Urgency Level</label>
+                            <select class="form-select" id="urgency" name="urgency" th:field="*{urgencyLevel}">
+                                <option value="0" selected disabled>Select urgency</option>
+                                <option value="1">Low</option>
+                                <option value="2">Medium</option>
+                                <option value="3">High</option>
+                            </select>
+                            <p class="text-danger" th:if="${#fields.hasErrors('urgencyLevel')}" th:errors="*{urgencyLevel}"></p>
+                        </div>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Submit</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="contact-info">
+                    <h2 class="mb-4"><i class="fas fa-info-circle"></i> Contact Information</h2>
+                    <h5><i class="fas fa-map-marker-alt"></i> Address</h5>
+                    <p>123 Taco Street<br>Taco City, CA 12345</p>
+                    <h5><i class="fas fa-phone-alt"></i> Phone</h5>
+                    <p>(123) 456-7890</p>
+                    <h5><i class="fas fa-at"></i> Email</h5>
+                    <p>info@tacohouse.com</p>
+                    <h5><i class="fas fa-share-alt"></i> Follow Us</h5>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                    <div class="mt-4">
+                        <h5><i class="fas fa-clock"></i> Business Hours</h5>
+                        <p>Monday - Friday: 11:00 AM - 10:00 PM</p>
+                        <p>Saturday - Sunday: 11:00 AM - 11:00 PM</p>
+                    </div>
+                    <div class="mt-4">
+                        <h5><i class="fas fa-map-marked-alt"></i> Location</h5>
+                        <div class="map-container">
+                            <iframe src="https://maps.google.com/maps?q=123%20Taco%20Street%2C%20Taco%20City%2C%20CA%2012345&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h5><i class="fas fa-map-marker-alt"></i> Contact Us</h5>
+                <p>123 Taco Street<br>Taco City, CA 12345</p>
+                <p><i class="fas fa-phone-alt"></i> Phone: (123) 456-7890</p>
+                <p><i class="fas fa-at"></i> Email: info@tacohouse.com</p>
+            </div>
+            <div class="col-md-4">
+                <h5><i class="fas fa-share-alt"></i> Follow Us</h5>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h5><i class="fas fa-link"></i> Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a th:href="@{/home}"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#" data-bs-toggle="modal" data-bs-target="#menuModal"><i class="fas fa-burger"></i> Menu</a></li>
+                    <li><a href="#" data-bs-toggle="modal" data-bs-target="#aboutModal"><i class="fas fa-info-circle"></i>About</a></li>
+                    <li><a th:href="@{/contact}"><i class="fas fa-envelope"></i> Contact</a></li>
+                </ul>
+            </div>
+        </div>
+        <hr> <p class="text-center mb-0">&copy; 2023 Taco House. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- Logout Modal -->
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoutModalLabel">Logout Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to logout?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="btn btn-primary">Logout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>
+</body>
+</html>

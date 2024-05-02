@@ -7,9 +7,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Component
-public class AddAdminUser implements CommandLineRunner {
+public class AddAdminUser implements CommandLineRunner { //add admin user with admin roles
     private UserRepository userRepository;
     @Value("${admin.username}")
     private String username;
@@ -23,9 +26,10 @@ public class AddAdminUser implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if(userRepository.findByUsername(username)==null){
-            userRepository.save(new User(username,passwordEncoder.encode(password),"ROLE_ADMIN"));
-        }
+        Set<String> roles = new HashSet<>();
+        roles.add("ROLE_USER");
+        roles.add("ROLE_ADMIN");
+        userRepository.save(new User(username,passwordEncoder.encode(password),roles));
     }
 
 }

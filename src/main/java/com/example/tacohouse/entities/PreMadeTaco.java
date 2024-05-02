@@ -13,12 +13,16 @@ public class PreMadeTaco {
     @Id
     private String id;
     private String name;
+
+
     @ManyToMany
     @JoinTable(
-            name = "pre_made_taco_ingredient_ref",
+            name = "Ingredient_Pre_Made_Taco_Ref",
             joinColumns = @JoinColumn(name = "pre_made_taco_id"),
             inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
     private List<Ingredient> ingredients;
+
+
     public PreMadeTaco(String id,String name,List<Ingredient> ingredients){
         this.id=id;
         this.name=name;

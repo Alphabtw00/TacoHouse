@@ -11,10 +11,10 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
-
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -22,12 +22,9 @@ import java.util.List;
 @Setter
 //@RestResource(rel="orders", path="orders")
 public class TacoOrder{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private Date placedAt = new Date();
-    @NotBlank(message = "Delivery name is required")
-    private String deliveryName;
+    @Id //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    private final String id = UUID.randomUUID().toString();
+    private LocalDateTime placedAt;
     @NotBlank
     private String deliveryStreet;
     @NotBlank(message = "City is required")
@@ -44,13 +41,13 @@ public class TacoOrder{
     @Digits(integer=3, fraction=0, message="Invalid CVV")
     private String ccCVV;
     @ManyToOne
+    @JoinColumn(name = "user_id")
     @ToString.Exclude
     private User user;
 
-    @OneToMany(mappedBy = "tacoOrder",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "tacoOrder", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Taco> tacos = new ArrayList<>();
     public void addTaco(Taco taco) {
-        taco.setTacoOrder(this);
         this.tacos.add(taco);
     }
 

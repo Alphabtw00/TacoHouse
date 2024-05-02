@@ -8,6 +8,10 @@ import org.springframework.web.context.annotation.SessionScope;
 @Data
 @Component
 @SessionScope
-public class SessionScopedTacoOrderManager {
-    private final TacoOrder tacoOrder = new TacoOrder();
+public class SessionScopedTacoOrderManager { //handles the taco order, so we can use same object in both designTaco and manu pages
+    private TacoOrder tacoOrder = new TacoOrder();
+
+    public void makeNewTacoOrder(){
+        this.tacoOrder= new TacoOrder();
+    }
 }

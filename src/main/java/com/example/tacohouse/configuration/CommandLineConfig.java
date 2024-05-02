@@ -46,6 +46,9 @@ public class CommandLineConfig {
                     "RICE", "Rice", Ingredient.Type.EXTRA);
             Ingredient avocado = new Ingredient(
                     "AVOC", "Avocado", Ingredient.Type.EXTRA);
+
+
+
             repo.save(flourTortilla);
             repo.save(cornTortilla);
             repo.save(groundBeef);
@@ -62,6 +65,8 @@ public class CommandLineConfig {
             repo.save(rice);
             repo.save(avocado);
 
+
+
             tacoRepo.save(new PreMadeTaco("CLBT","Classic Beef Taco", Arrays.asList(flourTortilla, groundBeef, cheddar, lettuce, salsa)));
             tacoRepo.save(new PreMadeTaco("SPCD","Spicy Carnitas Delight", Arrays.asList(cornTortilla, carnitas, jalapenos, lettuce, salsa)));
             tacoRepo.save(new PreMadeTaco("VEGF","Veggie Fiesta", Arrays.asList(cornTortilla, blackBeans, lettuce, tomatoes, guacamole)));
@@ -72,6 +77,10 @@ public class CommandLineConfig {
             tacoRepo.save(new PreMadeTaco("BARE","Bean and Rice Explosion", Arrays.asList(cornTortilla, blackBeans, rice, cheddar, salsa)));
             tacoRepo.save(new PreMadeTaco("SOCD","Sour Cream Dream", Arrays.asList(flourTortilla, sourCream, groundBeef, lettuce, tomatoes)));
             tacoRepo.save(new PreMadeTaco("MOJF","Monterrey Jack Fiesta", Arrays.asList(cornTortilla, carnitas, jack, lettuce, salsa)));
+
+
+
+
         };
     }
 }

@@ -9,6 +9,6 @@ import java.util.List;
 @Data
 public class PreMadeTacoList {
     @NotNull
-    @Size(min=1, message="You must choose at least 1 ingredient")
+    @Size(min=1, message="You must choose at least 1 Taco")
     private List<PreMadeTaco> preMadeTacos;
 }

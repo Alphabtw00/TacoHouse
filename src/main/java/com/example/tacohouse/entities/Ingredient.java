@@ -3,9 +3,9 @@ package com.example.tacohouse.entities;
 import jakarta.persistence.*;
 import lombok.*;
 @Data
-@Entity
+@Entity //needs a noArgConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED,force = true)
-@RequiredArgsConstructor
+@RequiredArgsConstructor //needed if we wanna use ingredients() with fields anywhere else //if final fields, then @data makes a requiredArgCons itself if no constructor is defined
 //@RestResource(rel="ingredients", path="ingredients")
 public class Ingredient {
     @Id

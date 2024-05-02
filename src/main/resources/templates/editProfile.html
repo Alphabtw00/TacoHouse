@@ -1,124 +1,311 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Edit Profile</title>
-  <link rel="stylesheet" th:href="@{/styles.css}" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body, h1, p, a, label, input, div, form {
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f8f8f8;
+      background-image: linear-gradient(120deg, #d0f4d1, #f8f8f8);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #4CAF50;
+      color: #ffffff;
+      padding: 15px 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-brand {
+      font-weight: 600;
+      font-size: 24px;
+      text-decoration: none;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar-brand i {
+      font-size: 28px;
+      margin-right: 10px;
+      color: #ffc107;
+    }
+
+    .navbar-nav {
+      display: flex;
+      list-style: none;
       margin: 0;
       padding: 0;
     }
 
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
+    .nav-item {
+      margin-left: 20px;
     }
 
-    .edit-profile-form {
-      max-width: 800px;
+    .nav-link {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+      position: relative;
+      padding-bottom: 5px;
+    }
+
+    .nav-link:hover {
+      color: #ffc107;
+    }
+
+    .nav-link::before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #ffc107;
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::before {
+      width: 100%;
+    }
+
+    .form-container {
       background-color: #ffffff;
+      border: 2px solid #4CAF50;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      padding: 30px;
+      padding: 40px;
     }
 
-    h1 {
-      font-size: 32px;
-      margin-bottom: 20px;
-      color: #333;
-    }
-
-    form {
-      text-align: left;
+    .form-group {
+      margin-bottom: 30px;
+      position: relative;
     }
 
     label {
-      font-size: 18px;
-      color: #333;
+      font-weight: 600;
+      color: #4CAF50;
       display: block;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
     }
 
     input[type="text"],
     input[type="password"] {
       width: 100%;
-      padding: 10px;
+      padding: 15px;
       border: 1px solid #ccc;
-      border-radius: 5px;
+      border-radius: 6px;
+      box-sizing: border-box;
       font-size: 16px;
-      margin-bottom: 10px;
+      background-color: #f9f9f9;
     }
 
-    input[type="submit"] {
-      background-color: #ff6600;
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      border-color: #4CAF50;
+      outline: none;
+      box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+    }
+
+    button[type="submit"] {
+      background-color: #4CAF50;
       color: #ffffff;
+      padding: 15px 30px;
       border: none;
-      border-radius: 5px;
-      padding: 10px 20px;
-      font-size: 18px;
+      border-radius: 8px;
       cursor: pointer;
-      width: 100%;
+      font-weight: 600;
+      font-size: 16px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    input[type="submit"]:hover {
-      background-color: #ff4500;
+    button[type="submit"]:hover {
+      background-color: #45a049;
+      transform: scale(1.03);
+    }
+
+    button[type="submit"] i {
+      margin-right: 10px;
+      font-size: 18px;
     }
 
     .validationError {
-      color: red;
+      color: #dc3545;
       font-size: 14px;
+      position: absolute;
+      bottom: -20px;
+      left: 0;
+    }
+
+    .modal-header {
+      background-color: #4CAF50;
+      color: #ffffff;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+
+    .modal-footer {
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+
+    .modal-footer .btn-primary {
+      background-color: #4CAF50;
+      border-color: #4CAF50;
+    }
+
+    .modal-footer .btn-primary:hover {
+      background-color: #45a049;
+      border-color: #45a049;
+    }
+
+    .form-heading {
+      color: #4CAF50;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 28px;
+      font-weight: 600;
+    }
+    .error-message {
+      color: #dc3545;
+      font-size: 16px;
+      text-align: center;
+      margin-bottom: 20px;
+      padding: 10px;
+      border-radius: 5px;
+      background-color: rgba(220, 53, 69, 0.1);
     }
   </style>
 </head>
 <body>
 
-<div class="edit-profile-form">
-  <form method="POST" th:action="@{/profile/edit}" th:object="${editForm}">
-    <h1>Edit Profile</h1>
-    <span th:if="${passwordMismatchError}" class="validationError" th:text="${passwordMismatchError}"></span> <br/>
 
-    <label for="username">New Username: </label>
-    <input type="text" id="username" th:field="*{newUsername}" /><br/>
-
-    <label for="currentPassword">Current Password: </label>
-    <input type="password" id="currentPassword" name="currentPassword" required /><br/>
-
-    <label for="newPassword">New Password (leave blank to keep current): </label>
-    <input type="password" id="newPassword" name="newPassword" /><br/>
-
-    <label for="confirmNewPassword">Confirm New Password: </label>
-    <input type="password" id="confirmNewPassword" name="newConfirmPassword" /><br/>
-
-    <label for="newFullName">Full Name: </label>
-    <input type="text" id="newFullName" th:field="*{newFullName}" /><br/>
-
-    <label for="newStreet">Street Address: </label>
-    <input type="text" id="newStreet" th:field="*{newStreet}" /><br/>
-
-    <label for="newCity">City: </label>
-    <input type="text" id="newCity" th:field="*{newCity}" /><br/>
-
-    <label for="newState">State: </label>
-    <input type="text" id="newState" th:field="*{newState}" /><br/>
-
-    <span class="validationError" th:if="${#fields.hasErrors('newZip')}" th:errors="*{newZip}">ZIP Error</span>
-    <label for="newZip">ZIP Code: </label>
-    <input type="text" id="newZip" th:field="*{newZip}" /><br/>
-
-    <span class="validationError" th:if="${#fields.hasErrors('newPhoneNumber')}" th:errors="*{newPhoneNumber}">Phone Number Error</span>
-    <label for="newPhoneNumber">Phone: </label>
-    <input type="text" id="newPhoneNumber" th:field="*{newPhoneNumber}" /><br/>
-
-    <input type="submit" value="Save Changes"/>
-  </form>
+<div class="container">
+  <nav class="navbar">
+    <a href="#" class="navbar-brand" data-bs-toggle="modal" data-bs-target="#homeModal"><i class="fas fa-home"></i> Home</a>
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#profileModal"><i class="fas fa-user-circle"></i> View Profile</a>
+      </li>
+    </ul>
+  </nav>
 </div>
+
+
+<div class="container">
+  <div class="form-container">
+    <h1 class="form-heading"><i class="fas fa-user-edit"></i> Edit Profile</h1>
+
+    <div th:if="${passwordMismatchError}" class="error-message" th:text="${passwordMismatchError}">Password Mismatch</div>
+    <div th:if="${usernameTakenError}" class="error-message" th:text="${usernameTakenError}">Username Taken</div>
+
+    <form th:action="@{/profile/edit}" th:object="${editForm}" method="post">
+      <div class="form-group">
+        <label for="newUsername"><i class="fas fa-user"></i>Username:</label>
+        <input type="text" id="newUsername" th:field="*{newUsername}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="currentPassword"><i class="fas fa-lock"></i> Current Password:</label>
+        <input type="password" id="currentPassword" th:field="*{currentPassword}" required class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="newPassword"><i class="fas fa-key"></i> New Password (leave blank to keep current):</label>
+        <input type="password" id="newPassword" th:field="*{newPassword}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="newConfirmPassword"><i class="fas fa-key"></i> Confirm New Password:</label>
+        <input type="password" id="newConfirmPassword" th:field="*{newConfirmPassword}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="newFullName"><i class="fas fa-user-tie"></i> Full Name:</label>
+        <input type="text" id="newFullName" th:field="*{newFullName}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="newStreet"><i class="fas fa-map-marker-alt"></i> Street Address:</label>
+        <input type="text" id="newStreet" th:field="*{newStreet}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="newCity"><i class="fas fa-city"></i> City:</label>
+        <input type="text" id="newCity" th:field="*{newCity}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="newState"><i class="fas fa-map-marker-alt"></i> State:</label>
+        <input type="text" id="newState" th:field="*{newState}" class="form-control">
+      </div>
+      <div class="form-group">
+        <span class="validationError" th:if="${#fields.hasErrors('newZip')}" th:errors="*{newZip}">ZIP Error</span>
+        <label for="newZip"><i class="fas fa-map-pin"></i> ZIP Code:</label>
+        <input type="text" id="newZip" th:field="*{newZip}" class="form-control">
+      </div>
+      <div class="form-group">
+        <span class="validationError" th:if="${#fields.hasErrors('newPhoneNumber')}" th:errors="*{newPhoneNumber}">Phone Number Error</span>
+        <label for="newPhoneNumber"><i class="fas fa-phone"></i> Phone Number:</label>
+        <input type="text" id="newPhoneNumber" th:field="*{newPhoneNumber}" class="form-control">
+      </div>
+      <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Save Changes</button>
+    </form>
+  </div>
+</div>
+
+
+<!-- Home Modal -->
+<div class="modal fade" id="homeModal" tabindex="-1" aria-labelledby="homeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="homeModalLabel"><i class="fas fa-exclamation-triangle"></i> Confirm Navigation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        If you navigate away from this page, any unsaved changes will be discarded. Do you want to proceed?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <a th:href="@{/home}" class="btn btn-primary">OK</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Profile Modal -->
+<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="profileModalLabel"><i class="fas fa-exclamation-triangle"></i> Confirm Navigation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        If you navigate away from this page, any unsaved changes will be discarded. Do you want to proceed?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <a th:href="@{/profile}" class="btn btn-primary">OK</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -10,32 +10,32 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Data
-@Entity(name = "\"USER\"")
+@Entity
 @NoArgsConstructor
+@Table(name = "Users") //cause user is reserved as table name and gives error
 //@RestResource(rel="users", path="users")
 
-public class User implements UserDetails {
+public class User implements UserDetails{ //spring uses UserDetailService which uses UserDetails to fetch password and username.
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
     private String username;
     private String password;
-    private String role;
+
+    @ElementCollection(fetch = FetchType.EAGER) //to fetch it together with the user entity //used instead of @jointable( used when using simple data types like strings and not other entities
+    @CollectionTable(name = "User_roles_Ref", //used with elementalcollection to edit the table
+            joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role") //changes name of column in elementCollection not main entity
+    private Set<String> roles = new HashSet<>();
+
     private String fullName;
     private String street;
     private String city;
     private String state;
     private String zip;
     private String phoneNumber;
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "role")
-    private Set<String> roles = new HashSet<>();
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "User_TacoOrder",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "tacoOrder_id"))
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
     private List<TacoOrder> tacoOrders = new ArrayList<>();
 
 
@@ -43,7 +43,7 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority(role))
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
     @Override
     public boolean isAccountNonExpired() {
@@ -61,26 +61,34 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-    public User(String username,String password,String role){
+
+
+
+    public User(String username,String password,Set roles){ //to add user without the info
         this.username=username;
         this.password=password;
-        this.role=role;
-        getRoles().add(role);
+        this.roles=roles;
     }
-    public User(String username, String password, String role, String fullName, String street, String city, String state, String zip,String phoneNumber) {
+
+    public User(String username, String password, Set roles, String fullName, String street, String city, String state, String zip,String phoneNumber) {
         this.username = username;
         this.password = password;
-        this.role = role;
+        this.roles = roles;
         this.fullName = fullName;
         this.street = street;
         this.city = city;
         this.state = state;
         this.zip = zip;
         this.phoneNumber=phoneNumber;
-        getRoles().add(role);
+    }
+
+    public User(String username, String password, Set roles, String fullName){
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+        this.fullName = fullName;
     }
     public void addTacoOrder(TacoOrder tacoOrder) {
-        tacoOrder.setUser(this);
         tacoOrders.add(tacoOrder);
     }
 }
