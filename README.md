@@ -1,15 +1,154 @@
-"Expertly designed and developed 'Taco House,' a dynamic web application using Spring Boot 3.0, Spring MVC, and Thymeleaf to render HTML/CSS models from the server. Leveraged Spring Security and Spring JPA for robust authentication, authorization, and database management, integrating H-2 database for seamless data handling.
+# 🌮 Taco House
 
-Implemented a comprehensive set of features including user registration, authentication, and profile management. The application facilitates menu browsing, allowing users to explore pre-made tacos or create customized orders. Additionally, users can submit reviews and benefit from CRUD functionalities for a seamless ordering experience.
+## Table of Contents
+- [Introduction](#introduction)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Project Structure](#project-structure)
+- [Configuration](#configuration)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Documentation](#api-documentation)
+- [Contributing](#contributing)
 
-Utilized Docker to create a portable and easily runnable environment for the application. Included a customized admin UI using Spring Actuator to handle metrics and monitor the application's health. Technologies employed include Spring Actuator for monitoring, management purposes, and admin interface for metrics.
+## Introduction
 
-This project showcases a mastery of Spring framework, database management, security implementation, Docker deployment, and monitoring tools, underscoring strong proficiency in full-stack development with Spring technologies.
+Taco House is a full-stack food ordering web application developed using Spring Boot 3.0, Spring MVC, Spring Security 6, and Thymeleaf. This project showcases a comprehensive set of features for both users and administrators, providing a seamless experience for ordering tacos online.
 
-��# TacoHouse  
-TO-DO: 
-1) add spring-boot-admin-starter-server dependency in a project 
-2) use @EnableAdminServer on Main class to let spring know that it is our admin server 
-2) add server.port=9090(or any port according you but remember to change that accordingly in tacohouse admin client property)  
-3) start admin server then start tacohouse(admin client)
-4) now you have an ui that consumes actuator endpoints and can monitor your health and metrics.
+## Features
+
+### User Features
+- 👤 User registration and authentication (including OAuth)
+- 🔐 Profile management
+- 🌯 Menu browsing with pre-made and customizable tacos
+- 🛒 Fully functional ordering system
+- 💳 Integrated payment gateway
+- ⭐ Review and rating system
+- 📧 Email notifications for order updates
+- 💬 Customer support tickets
+
+### Admin Features
+- 📊 Admin dashboard
+- 👥 User management
+- 📦 Order management
+- 🌟 Review management
+- 🍽️ Menu item management
+
+### Additional Features
+- 🌤️ Taco recommendations based on season/time
+- 💬 Contact ticket system using Spring Cloud Kafka
+- 📱 Responsive design with HTML/CSS
+- 🐳 Docker deployment
+
+## Technologies Used
+
+- Java Spring Boot 3.0
+- Spring MVC
+- Spring Security 6
+- Thymeleaf
+- Spring Cloud
+- Spring Data JPA
+- MySQL Database
+- Spring Cloud Kafka
+- Jackson (for serialization)
+- HTML/CSS
+- Docker
+
+## Project Structure
+
+```
+tacohouse/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/
+│   │   │       └── tacohouse/
+│   │   │           ├── config/
+│   │   │           ├── controller/
+│   │   │           ├── model/
+│   │   │           ├── repository/
+│   │   │           ├── service/
+│   │   │           └── TacohouseApplication.java
+│   │   └── resources/
+│   │       ├── static/
+│   │       │   ├── css/
+│   │       │   └── js/
+│   │       └── templates/
+│   │           ├── admin/
+│   │           └── user/
+│   └── test/
+├── pom.xml
+├── Dockerfile
+└── README.md
+```
+
+## Configuration
+
+Here's the configuration for the Taco House application:
+
+```properties
+# H-2 DB Config
+spring.datasource.generate-unique-name=false
+spring.datasource.name=tacohouse
+
+# JPA Config
+spring.jpa.hibernate.ddl-auto=create
+spring.jpa.show-sql=true
+
+# Actuator Config
+management.endpoints.web.exposure.include=*
+
+# Admin Server Config
+spring.boot.admin.client.url=http://localhost:9090
+spring.boot.admin.client.username=${TACOHOUSE_USERNAME}
+spring.boot.admin.client.password=${TACOHOUSE_PASSWORD}
+
+# Kafka Config
+spring.cloud.stream.kafka.binder.brokers=localhost:9092
+spring.cloud.stream.output-bindings=contact
+spring.cloud.stream.bindings.contact.destination=tacohouse
+spring.cloud.function.definition=consumer
+spring.cloud.stream.bindings.consumer-in-0.destination=tacohouse
+```
+
+## Installation
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/yourusername/tacohouse.git
+   ```
+2. Navigate to the project directory:
+   ```
+   cd tacohouse
+   ```
+3. Build the project:
+   ```
+   mvn clean install
+   ```
+4. Run the Docker container:
+   ```
+   docker build -t tacohouse .
+   docker run -p 8080:8080 tacohouse
+   ```
+
+## Usage
+
+After starting the application, you can access it at `http://localhost:8080`. Use the following credentials for admin access:
+
+- Username: `${TACOHOUSE_USERNAME}`
+- Password: `${TACOHOUSE_PASSWORD}`
+
+> **Note:** Replace `${TACOHOUSE_USERNAME}` and `${TACOHOUSE_PASSWORD}` with actual environment variables or values.
+
+## API Documentation
+
+API documentation is available at `http://localhost:8080/swagger-ui.html` when the application is running.
+
+## Contributing
+
+I welcome contributions to the Taco House project! Please feel free to submit issues, fork the repository and send pull requests!
+
+
+---
+
+Created with 🌮 by Ansh
