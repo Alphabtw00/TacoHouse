@@ -4,11 +4,15 @@ import com.example.tacohouse.entities.TacoOrder;
 import com.example.tacohouse.entities.User;
 import com.example.tacohouse.uses.EditForm;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Collection;
 
 @Service
 public class UserService {
@@ -111,9 +115,19 @@ public class UserService {
     public void updateCurrentAuthenticatedUser(String username) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(username); //gets the saved user entity via the username (could manually fetch from repo too)
         if (userDetails != null) {
-            User user = (User) userDetails; //type cast as user implements userdetails and loadbyusername returns userDetails
+            User user = (User) userDetails; //type cast, as user implements userdetails and loadbyusername returns userDetails
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities()); //this token const(object principal, object credentials, Collection<? extends GrantedAuthority>), could have put userdetails directly too with null password as only updating
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
+    }
+
+    public boolean hasAdminRole(){ //could have used @authenticatedPrincipal User user, as our user class is instance of UserDetails and can use getAuthorities() on it
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); //could also get principal, check if its instance of UserDetails and then get authorities from it.(works only in form based tho)
+        if (authentication != null) {
+            Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+            return authorities.stream()
+                    .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
+        }
+        return false;
     }
 }

@@ -12,16 +12,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class MessageService {
     private final StreamBridge streamBridge;
+    private final ObjectMapper objectMapper;
 
-    public MessageService(StreamBridge streamBridge) {
+    public MessageService(StreamBridge streamBridge, ObjectMapper objectMapper) {
         this.streamBridge = streamBridge;
+        this.objectMapper = objectMapper;
     }
-
 
     public void sendContactMessage(String bindingName, Contact contact){
         log.info("Sending kafka message for contact id: {}, made by {}", contact.getId(), contact.getName());
         // Serialize the Contact object to JSON before sending
-        ObjectMapper objectMapper = new ObjectMapper();
         try {
             String jsonContact = objectMapper.writeValueAsString(contact);
             streamBridge.send(bindingName, jsonContact);

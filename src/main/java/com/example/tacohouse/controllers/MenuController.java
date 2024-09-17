@@ -4,9 +4,9 @@ import com.example.tacohouse.components.SessionScopedTacoOrderManager;
 import com.example.tacohouse.entities.PreMadeTaco;
 import com.example.tacohouse.entities.Taco;
 import com.example.tacohouse.entities.TacoOrder;
-import com.example.tacohouse.repositories.PreMadeTacoRepository;
 import com.example.tacohouse.repositories.TacoRepository;
 import com.example.tacohouse.services.PreMadeTacoToTacoService;
+import com.example.tacohouse.services.TacoRecommendationService;
 import com.example.tacohouse.uses.PreMadeTacoList;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -21,27 +21,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
 @RequestMapping("/taco/menu")
 public class MenuController {
     private final SessionScopedTacoOrderManager sessionScopedTacoOrderManager;
-    private final PreMadeTacoRepository preMadeTacoRepository;
+    private final TacoRecommendationService tacoRecommendationService;
     private final PreMadeTacoToTacoService preMadeTacoToTacoService;
-
     private final TacoRepository tacoRepository;
 
     public MenuController(SessionScopedTacoOrderManager sessionScopedTacoOrderManager,
-                          PreMadeTacoRepository preMadeTacoRepository,
+                          TacoRecommendationService tacoRecommendationService,
                           PreMadeTacoToTacoService preMadeTacoToTacoService,
                           TacoRepository tacoRepository) {
         this.sessionScopedTacoOrderManager = sessionScopedTacoOrderManager;
-        this.preMadeTacoRepository = preMadeTacoRepository;
+        this.tacoRecommendationService = tacoRecommendationService;
         this.preMadeTacoToTacoService = preMadeTacoToTacoService;
         this.tacoRepository = tacoRepository;
     }
-
 
     @GetMapping
     public String getMenu(){
@@ -80,17 +79,13 @@ public class MenuController {
 
     @ModelAttribute
     public void addTacoToModel(Model model){
-        Iterable<PreMadeTaco> tempo= preMadeTacoRepository.findAll();
-        List<PreMadeTaco> preMadeTacos = new ArrayList<>();
-        tempo.forEach(preMadeTacos::add);
+        Map<PreMadeTaco, Boolean> preMadeTacos = tacoRecommendationService.getPreMadeTacosWithRecommendations();
         model.addAttribute("preMadeTacos",preMadeTacos);
     }
 
 
-    @ModelAttribute
-    public PreMadeTaco preMadeTaco(){
-        return new PreMadeTaco();
-    }
+
+
     @ModelAttribute
     public PreMadeTacoList preMadeTacoList(){
         return new PreMadeTacoList();

@@ -1,7 +1,9 @@
 package com.example.tacohouse.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +15,7 @@ import java.util.stream.Collectors;
 @Entity
 @NoArgsConstructor
 @Table(name = "Users") //cause user is reserved as table name and gives error
+@JsonIgnoreProperties(value = {"authorities"}, ignoreUnknown = true) //remove authorities field from serialization due to it being abstract class provided by spring security, getting errors due to enable field which is unrecognized
 //@RestResource(rel="users", path="users")
 
 public class User implements UserDetails{ //spring uses UserDetailService which uses UserDetails to fetch password and username.
@@ -22,8 +25,8 @@ public class User implements UserDetails{ //spring uses UserDetailService which 
     private String username;
     private String password;
 
-    @ElementCollection(fetch = FetchType.EAGER) //to fetch it together with the user entity //used instead of @jointable( used when using simple data types like strings and not other entities
-    @CollectionTable(name = "User_roles_Ref", //used with elementalcollection to edit the table
+    @ElementCollection(fetch = FetchType.EAGER) //to fetch it together with the user entity //used instead of @jointable (used when using simple data types like strings and not other entities)
+    @CollectionTable(name = "User_roles_Ref", //used with elementalCollection to edit the table
             joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role") //changes name of column in elementCollection not main entity
     private Set<String> roles = new HashSet<>();

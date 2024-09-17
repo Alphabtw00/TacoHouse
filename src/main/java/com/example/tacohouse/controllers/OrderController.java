@@ -104,7 +104,7 @@ public class OrderController {
 
         TacoOrder tacoOrder = orderRepository.save(order);
 
-        currentUser.addTacoOrder(tacoOrder); //lazily after saving to used @transactional or made eager
+        currentUser.addTacoOrder(tacoOrder); //lazily after saving so used @transactional or made eager
 
         userService.updateUserFromOrder(currentUser, tacoOrder);
         userRepository.save(currentUser);

@@ -19,6 +19,7 @@ public class AddAdminUser implements CommandLineRunner { //add admin user with a
     @Value("${admin.password}")
     private String password;
     private PasswordEncoder passwordEncoder;
+
     public AddAdminUser(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;

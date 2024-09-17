@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
+//@JsonIgnoreProperties(value = {"user"}) //to ignore user object to be serialized and deserialized
 public class Contact {
     @Id
     private String id;
@@ -28,6 +29,7 @@ public class Contact {
 
     @Min(value = 1, message = "Pls select Urgency Level")
     private int urgencyLevel;
+    //@JsonIgnore
     @ManyToOne
     private User user;
 

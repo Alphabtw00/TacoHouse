@@ -59,13 +59,12 @@ public class DesignTacoController {
 
         taco.setCreatedAt(LocalDateTime.now());
 
-        Taco savedTaco = tacoRepository.save(taco);
+        Taco savedTaco = tacoRepository.save(taco); //we save the taco as @Id is auto incremented. If not saved tacoOrder objects had null id for child entity and was giving error (null tacoOrder list) when saving TacoOrder
 
-        taco.setTacoOrder(tacoOrder);
+        taco.setTacoOrder(tacoOrder); //we do this after saving (if done before saving it gives error as tacoOrder field is not saved), if we save tacoOrder it cascades automatically after
         tacoOrder.addTaco(savedTaco);
-        log.info("Processing taco: {} ",savedTaco);
+        log.info("Processing taco: {} ", savedTaco);
         return "redirect:/orders/current";
-
 
     }
 

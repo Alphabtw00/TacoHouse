@@ -141,7 +141,7 @@
     <form method="POST" th:action="@{/taco/design}" th:object="${taco}">
         <div class="validationError" th:if="${#fields.hasErrors('ingredients')}" th:errors="*{ingredients}">Ingredient Error</div>
         <div class="ingredient-group">
-            <h3><i class="fas fa-bread-slice"></i> Designate your wrap:</h3>
+            <h3> Designate your wrap:</h3>
             <div class="row row-cols-md-3">
                 <div th:each="ingredient : ${wrap}" class="col mb-3">
                     <div class="form-check">
@@ -155,7 +155,7 @@
             </div>
         </div>
         <div class="ingredient-group">
-            <h3><i class="fas fa-drumstick-bite"></i> Pick your protein:</h3>
+            <h3> Pick your protein:</h3>
             <div class="row row-cols-md-3">
                 <div th:each="ingredient : ${protein}" class="col mb-3">
                     <div class="form-check">
@@ -169,7 +169,7 @@
             </div>
         </div>
         <div class="ingredient-group">
-            <h3><i class="fas fa-cheese"></i> Choose your cheese:</h3>
+            <h3> Choose your cheese:</h3>
             <div class="row row-cols-md-3">
                 <div th:each="ingredient : ${cheese}" class="col mb-3">
                     <div class="form-check">
@@ -183,7 +183,7 @@
             </div>
         </div>
         <div class="ingredient-group">
-            <h3><i class="fas fa-carrot"></i> Determine your veggies:</h3>
+            <h3>Determine your veggies:</h3>
             <div class="row row-cols-md-3">
                 <div th:each="ingredient : ${veggies}" class="col mb-3">
                     <div class="form-check">
@@ -197,7 +197,7 @@
             </div>
         </div>
         <div class="ingredient-group">
-            <h3><i class="fas fa-sauce"></i> Select your sauce:</h3>
+            <h3> Select your sauce:</h3>
             <div class="row row-cols-md-3">
                 <div th:each="ingredient : ${sauce}" class="col mb-3">
                     <div class="form-check">
@@ -211,7 +211,7 @@
             </div>
         </div>
         <div class="ingredient-group">
-            <h3><i class="fas fa-plus-circle"></i> Add some extras:</h3>
+            <h3> Add some extras:</h3>
             <div class="row row-cols-md-3">
                 <div th:each="ingredient : ${extra}" class="col mb-3">
                     <div class="form-check">
@@ -225,7 +225,7 @@
             </div>
         </div>
         <div class="form-group">
-            <h3><i class="fas fa-pen-nib"></i> Name your taco creation:</h3>
+            <h3> Name your taco creation:</h3>
             <input type="text" th:field="*{name}" placeholder="Enter a name for your taco" class="form-control" required>
             <span class="validationError" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</span>
         </div>

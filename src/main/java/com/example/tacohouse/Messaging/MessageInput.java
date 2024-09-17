@@ -13,11 +13,16 @@ import java.util.function.Consumer;
 @Configuration
 public class MessageInput {
 
+    private final ObjectMapper objectMapper;
+
+    public MessageInput(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     @Bean
     public Consumer<String> consumer() {
         return contact -> {
-            ObjectMapper objectMapper = new ObjectMapper();
+
             try {
                 // Deserialize the JSON string into a Contact object
                 Contact receivedContact = objectMapper.readValue(contact, Contact.class);

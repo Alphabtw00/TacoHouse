@@ -14,16 +14,23 @@
             background-image: linear-gradient(120deg, #d0f4d1, #f8f8f8);
         }
 
-        .header .navbar {
+        .header {
             background-color: #4CAF50;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
         }
+
+        .header .navbar-brand {
+            font-weight: 700;
+            color: #FFFFFF;
+            font-size: 2.0rem;
+        }
+
 
         .header .nav-link {
             color: #ffffff;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
             transition: color 0.3s ease;
             position: relative;
             padding-bottom: 5px;
@@ -173,7 +180,7 @@
 <header class="header">
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" th:href="@{/home}"><i class="fas fa-utensils"></i> Taco House</a>
+            <a class="navbar-brand" th:href="@{/home}">Taco House</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -263,36 +270,6 @@
         </div>
     </div>
 </main>
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <h5><i class="fas fa-map-marker-alt"></i> Contact Us</h5>
-                <p>123 Taco Street<br>Taco City, CA 12345</p>
-                <p><i class="fas fa-phone-alt"></i> Phone: (123) 456-7890</p>
-                <p><i class="fas fa-at"></i> Email: info@tacohouse.com</p>
-            </div>
-            <div class="col-md-4">
-                <h5><i class="fas fa-share-alt"></i> Follow Us</h5>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <h5><i class="fas fa-link"></i> Quick Links</h5>
-                <ul class="list-unstyled">
-                    <li><a th:href="@{/home}"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="#" data-bs-toggle="modal" data-bs-target="#menuModal"><i class="fas fa-burger"></i> Menu</a></li>
-                    <li><a href="#" data-bs-toggle="modal" data-bs-target="#aboutModal"><i class="fas fa-info-circle"></i>About</a></li>
-                    <li><a th:href="@{/contact}"><i class="fas fa-envelope"></i> Contact</a></li>
-                </ul>
-            </div>
-        </div>
-        <hr> <p class="text-center mb-0">&copy; 2023 Taco House. All rights reserved.</p>
-    </div>
-</footer>
 
 <!-- Logout Modal -->
 <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">

@@ -11,7 +11,7 @@ public class Ingredient {
     @Id
     private final String id;
     private final String name;
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) //saving enum as string to not get errors
     private final Type type;
 
     public enum Type {

@@ -6,8 +6,11 @@ import com.example.tacohouse.entities.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ReviewRepository extends CrudRepository<Review,Long> {
     public Review findReviewByUserAndTacoOrder(User user, TacoOrder tacoOrder);
 
+    public List<Review> findAll();
 }

@@ -14,7 +14,6 @@ public class PreMadeTaco {
     private String id;
     private String name;
 
-
     @ManyToMany
     @JoinTable(
             name = "Ingredient_Pre_Made_Taco_Ref",
@@ -22,10 +21,24 @@ public class PreMadeTaco {
             inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
     private List<Ingredient> ingredients;
 
+    private MealTime mealTime;
+    private List<Season> seasons;
 
-    public PreMadeTaco(String id,String name,List<Ingredient> ingredients){
-        this.id=id;
-        this.name=name;
-        this.ingredients=ingredients;
+    public PreMadeTaco(String id, String name, List<Ingredient> ingredients, MealTime mealTime, List<Season> seasons) {
+        this.id = id;
+        this.name = name;
+        this.ingredients = ingredients;
+        this.mealTime = mealTime;
+        this.seasons = seasons;
+    }
+
+
+
+    public enum MealTime {
+        BREAKFAST, LUNCH, DINNER
+    }
+
+    public enum Season {
+        SPRING, SUMMER, FALL, WINTER, ALL
     }
 }

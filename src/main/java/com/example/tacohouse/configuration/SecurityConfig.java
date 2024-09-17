@@ -25,9 +25,11 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder(){ //passowrd encrypter bean
         return new BCryptPasswordEncoder();
     }
+
+
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepository){ //spring uses this whenever someone tries logging in
-        return username->{ //userDetailService interface has single method (loadByUsername) which returns UserDetails object, so we implement it as a lambda (functional interface)
+        return username->{                                                       //userDetailService interface has single method (loadByUsername) which returns UserDetails object, so we implement it as a lambda (functional interface)
             User user = userRepository.findByUsername(username);
             if(user!=null){
                 return user;
@@ -41,33 +43,55 @@ public class SecurityConfig {
         MvcRequestMatcher.Builder mvc = new MvcRequestMatcher.Builder(introspector);
         http
                 .authorizeHttpRequests((auth)-> auth
-                        .requestMatchers(mvc.pattern("/home"),
-                                mvc.pattern("/images/**"),
+
+                        .requestMatchers(                                                // (done first)
+                                mvc.pattern("/home"),
+                                mvc.pattern("/images/**"), //loading any images need this
                                 mvc.pattern("/login"),     //login and register permitted be default if not using
                                 mvc.pattern("register"),
-                                mvc.pattern("/"))
-                        .permitAll()
-                        .requestMatchers(mvc.pattern("/taco/design"),mvc.pattern("/orders") // (should be done second)
-                                ,mvc.pattern("/orders/current"),mvc.pattern("/taco/menu")
+                                mvc.pattern("/")
+                        ).permitAll()
+
+
+                        .requestMatchers(                                              //(should be done second)
+                                mvc.pattern("/taco/design")
+                                ,mvc.pattern("/orders") //
+                                ,mvc.pattern("/orders/current")
+                                ,mvc.pattern("/taco/menu")
                                 ,mvc.pattern("/profile")
                                 ,mvc.pattern("/profile/edit")
-                                ,mvc.pattern("/contact"))
-                        .hasAnyRole("USER","ADMIN")
-                        .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("ADMIN") //to secure all endpoints including actuator endpoints
-                        .anyRequest().authenticated() //all requests are authenticated (should be done last)
+                                ,mvc.pattern("/contact")
+                        ).hasAnyRole("USER","ADMIN")
+
+
+                        .requestMatchers(
+                                mvc.pattern("/admin")
+                        ).hasRole("ADMIN")
+
+
+                        .requestMatchers(
+                                EndpointRequest.toAnyEndpoint()
+                        ).hasRole("ADMIN") //to secure all endpoints including actuator endpoints
+
+
+                        .anyRequest().authenticated() //all requests are authenticated     (should be done last)
                 )
+
                 .formLogin(form-> form
-                        .loginPage("/login") //redirect users to this page
-                                .loginProcessingUrl("/login") // post req to this starts the login process
-                                .failureUrl("/login?error") //if failed redirect to this url
-                                .defaultSuccessUrl(("/home"),true)) //redirects to this url even if user was on another url before login
+                        .loginPage("/login")   //redirect users to this page
+                        .loginProcessingUrl("/login") // post req to this url starts the login process
+                        .failureUrl("/login?error") //if failed redirect to this url
+                        .defaultSuccessUrl(("/home"),true)) //redirects to this url. if user was on another url before login it still directs to this (if alwaysUse is true)
+
+
                 .logout(logout-> logout
-                        .logoutUrl("/logout")
+                        .logoutUrl("/logout") //send req to this to tell spring securiy to logout
                         .logoutSuccessUrl("/login?logout").permitAll()); //have to permit if custom success url (does this same by default anyways)
+
         return http.build();
     }
     @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() { //as h2 console url is not controlled by spring mvc(uses a different servlet), if we have spring mvc on classpath and are securing other servlet than dispatcher servlet which is default, we need to use introspector and mvcrequestbuilder), it used ant matchers for that and we cant have both antMAtchers and MVc
+    public WebSecurityCustomizer webSecurityCustomizer() { //as h2 console url is not controlled by spring mvc(uses a different servlet), if we have spring mvc on classpath and are securing other servlet than dispatcher servlet which is default, we need to use introspector and mvcrequestbuilder), it uses ant matchers for that and we cant have both antMatchers and MVC
         return (web) -> web.ignoring().requestMatchers(antMatcher("/h2-console/**"));
     }
 }
