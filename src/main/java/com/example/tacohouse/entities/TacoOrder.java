@@ -45,7 +45,7 @@ public class TacoOrder{
     @ToString.Exclude
     private User user;
 
-    @OneToMany(mappedBy = "tacoOrder", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "tacoOrder", cascade = CascadeType.ALL, fetch = FetchType.EAGER) //mapped the list to owning side (owning side is the one that owns the relation(foreign key))
     private List<Taco> tacos = new ArrayList<>();
     public void addTaco(Taco taco) {
         this.tacos.add(taco);
