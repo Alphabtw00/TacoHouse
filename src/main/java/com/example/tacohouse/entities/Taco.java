@@ -29,14 +29,14 @@ public class Taco{
     @JoinTable(
             name = "ingredient_Taco_Ref",
             joinColumns = @JoinColumn(name = "taco_id"),
-            inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
+            inverseJoinColumns = @JoinColumn(name = "ingredient_id")) //to name the extra table made by list elements
     @NotNull
     @Size(min=1, message="You must choose at least 1 ingredient")
     private List<Ingredient> ingredients = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "taco_order_id")
-    @ToString.Exclude
+    @ToString.Exclude // to remove circular dependency when we log it
     private TacoOrder tacoOrder;
 
     public Taco(String name, List<Ingredient> ingredients) {
