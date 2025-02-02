@@ -317,7 +317,7 @@
                         <p><span>Tacos Ordered: </span>
                             <span th:each="taco, index : ${order.tacos}">
                                 <span th:text="${taco.name}"></span>
-                                <span th:unless="${index.last},"></span>
+                                <span th:unless="${index.last}"></span>
                             </span>
                         </p>
                     </div>
