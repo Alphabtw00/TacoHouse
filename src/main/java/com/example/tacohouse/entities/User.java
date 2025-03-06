@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
 @JsonIgnoreProperties(value = {"authorities"}, ignoreUnknown = true) //remove authorities field from serialization due to it being abstract class provided by spring security, getting errors due to enable field which is unrecognized
 //@RestResource(rel="users", path="users")
 
+
+
 public class User implements UserDetails{ //spring uses UserDetailService which uses UserDetails to fetch password and username.
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)

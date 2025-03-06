@@ -82,8 +82,7 @@ public class SecurityConfig {
                         .loginProcessingUrl("/login") // post req to this url starts the login process
                         .failureUrl("/login?error") //if failed redirect to this url
                         .defaultSuccessUrl(("/home"),true)) //redirects to this url. if user was on another url before login it still directs to this (if alwaysUse is true)
-
-
+                
                 .logout(logout-> logout
                         .logoutUrl("/logout") //send req to this to tell spring securiy to logout
                         .logoutSuccessUrl("/login?logout").permitAll()); //have to permit if custom success url (does this same by default anyways)
